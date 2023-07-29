@@ -1,20 +1,29 @@
 #!/usr/bin/python3
-"""
-Flask route that returns json status response
-"""
-from flask import jsonify
+"""JSON file status """
 from api.v1.views import app_views
+from flask import jsonify
 from models import storage
 
-@app_views.route('/stats', methods=['GET'])
-def get_stats():
-    """Retrieves the number of each object by type."""
-    objects_count = {
-        'amenities': storage.count('Amenity'),
-        'cities': storage.count('City'),
-        'places': storage.count('Place'),
-        'reviews': storage.count('Review'),
-        'states': storage.count('State'),
-        'users': storage.count('User')
+
+@app_views.route('/status', strict_slashes=False)
+def status():
+    return jsonify({"status": "OK"})
+
+
+@app_views.route('/stats')
+def stats():
+    """
+    Returns the count of all objects by type
+    """
+    classes = {
+        'amenities': 'Amenity',
+        'cities': 'City',
+        'places': 'Place',
+        'reviews': 'Review',
+        'states': 'State',
+        'users': 'User'
     }
-    return jsonify(objects_count)
+    counts = {}
+    for key, value in classes.items():
+        counts[key] = storage.count(value)
+    return jsonify(counts)
