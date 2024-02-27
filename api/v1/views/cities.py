@@ -108,3 +108,7 @@ def city_delete_by_id(city_id):
     storage.save()
 
     return jsonify({})
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2705fa05e1540f556833dcb730f7ae743b654113
